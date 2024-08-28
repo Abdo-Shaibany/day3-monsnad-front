@@ -6,59 +6,15 @@ import { ResponseList } from 'src/app/core/models/response-list.model';
 import { APIService } from 'src/app/core/services/api.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { PostModel } from 'src/app/core/models/posts.model';
+import { MessageService } from 'src/app/core/services/message.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 @Component({
   selector: 'app-posts-list',
   templateUrl: './posts-list.component.html',
 })
 export class PostsListComponent implements OnInit {
   posts: ResponseList<PostModel> = {
-    items: [
-      {
-        id: 1,
-        title: "Post title",
-        content: "The sun danced across the rippling waves, casting a golden glow upon the serene waters, while whispers of the wind carried secrets through the ancient trees, rustling their leaves in a symphony of mystery. Laughter echoed through the bustling streets, mingling with the aroma of freshly baked pastries from the corner bakery.",
-        user: {
-          id: 1,
-          username: "admin",
-        },
-        date: new Date("2024-01-01"),
-        category: "category",
-        imageId: 1,
-      },
-      {
-        id: 1,
-        title: "Post title",
-        content: "The sun danced across the rippling waves, casting a golden glow upon the serene waters, while whispers of the wind carried secrets through the ancient trees, rustling their leaves in a symphony of mystery. Laughter echoed through the bustling streets, mingling with the aroma of freshly baked pastries from the corner bakery.",
-        user: {
-          id: 1,
-          username: "admin",
-        },
-        date: new Date("2024-01-01"),
-        category: "category",
-      },
-      {
-        id: 1,
-        title: "Post title",
-        content: "The sun danced across the rippling waves, casting a golden glow upon the serene waters, while whispers of the wind carried secrets through the ancient trees, rustling their leaves in a symphony of mystery. Laughter echoed through the bustling streets, mingling with the aroma of freshly baked pastries from the corner bakery.",
-        user: {
-          id: 1,
-          username: "admin",
-        },
-        date: new Date("2024-01-01"),
-        category: "category",
-      },
-      {
-        id: 1,
-        title: "Post title",
-        content: "The sun danced across the rippling waves, casting a golden glow upon the serene waters, while whispers of the wind carried secrets through the ancient trees, rustling their leaves in a symphony of mystery. Laughter echoed through the bustling streets, mingling with the aroma of freshly baked pastries from the corner bakery.",
-        user: {
-          id: 1,
-          username: "admin",
-        },
-        date: new Date("2024-01-01"),
-        category: "category",
-      },
-    ],
+    items: [],
     pagination: {
       totalItems: 10,
       currentPage: 0,
@@ -103,7 +59,14 @@ export class PostsListComponent implements OnInit {
       });
   }
 
+  logout() {
+    this.authService.removeToken();
+    this.utilService.goBack();
+  }
+
   getRelativeTimeString(date: Date | number, lang = navigator.language): string {
+    date = new Date(date);
+
     const timeMs = typeof date === "number" ? date : date.getTime();
     const deltaSeconds = Math.round((timeMs - Date.now()) / 1000);
 
@@ -117,6 +80,10 @@ export class PostsListComponent implements OnInit {
     return rtf.format(Math.floor(deltaSeconds / divisor), units[unitIndex]);
   }
 
+  stripTags(content: string) {
+    return content.replace(/<\/?[^>]+(>|$)/g, '');
+  }
+
   viewPost(id: number) {
     this.utilService.gotoLink(['posts', 'post-view', id.toString()]);
   }
@@ -126,8 +93,24 @@ export class PostsListComponent implements OnInit {
   }
 
   deletePost(id: number) {
-    // TODO: delete this
-    this.fetchData(this.query);
+    this.apiService.deleteOne(id.toString(), "posts").subscribe({
+      next: () => {
+        this.messageService.publishMessage({
+          type: "success",
+          message: "تم الحذف بنجاح",
+          duration: 1000
+        })
+        this.fetchData(this.query);
+      },
+      error: (error) => {
+        console.log(error);
+        this.messageService.publishMessage({
+          type: 'error',
+          message: 'حصل خطأ ، الرجاء المحاولة مرة أخرى',
+          duration: 2000
+        })
+      },
+    })
   }
 
   addPost() {
@@ -135,6 +118,7 @@ export class PostsListComponent implements OnInit {
   }
 
   constructor(private utilService: UtilService, private apiService: APIService,
+    private messageService: MessageService, private authService: AuthService
   ) { }
 
   ngOnInit(): void {

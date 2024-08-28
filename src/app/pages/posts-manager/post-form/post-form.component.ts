@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Bread } from 'src/app/core/models/bread.model';
+import { PostModel } from 'src/app/core/models/posts.model';
 import { APIService } from 'src/app/core/services/api.service';
 import { MessageService } from 'src/app/core/services/message.service';
+import { SignalService } from 'src/app/core/services/signal.service';
 import { UtilService } from 'src/app/core/services/util.service';
 
 @Component({
@@ -34,22 +36,66 @@ export class PostFormComponent {
 
   initForm() {
     this.postGroup = this.fb.group({
-      title: [null, Validators.required],
-      content: [null, Validators.required],
+      title: [null, Validators.required, Validators.min(3)],
+      content: [null],
       id: [null],
       category: [null, Validators.required],
       imageId: [null]
     });
   }
 
-  onSubmit() { }
+  onSubmit() {
+    if (!this.isSubmitValid) return;
+    this.isLoading = true;
+
+    if (this.currentItemId)
+      this.apiService.createItem<PostModel>(this.postGroup.value, "posts").subscribe({
+        next: (_) => {
+          this.singalService.publishSignal("posts-list");
+          this.messageService.publishMessage({
+            message: "تمت عملية الاضافة بنجاح",
+            type: 'success',
+            duration: 3000,
+          })
+          this.utilService.goBack();
+        },
+        error: (error) => {
+          this.messageService.publishMessage({
+            message: error.error.message,
+            type: 'error',
+            duration: 3000,
+          });
+          this.isLoading = false;
+        }
+      })
+    else this.apiService.updateItem<PostModel>(this.postGroup.value, "posts").subscribe({
+      next: (_) => {
+        this.singalService.publishSignal("posts-list");
+        this.messageService.publishMessage({
+          message: "تمت عملية الاضافة بنجاح",
+          type: 'success',
+          duration: 3000,
+        })
+        this.utilService.goBack();
+      },
+      error: (error) => {
+        this.messageService.publishMessage({
+          message: error.error.message,
+          type: 'error',
+          duration: 3000,
+        });
+        this.isLoading = false;
+      }
+    })
+  }
 
   constructor(
     private fb: FormBuilder,
     private apiService: APIService,
     private utilService: UtilService,
     private messageService: MessageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private singalService: SignalService
   ) {
     this.initForm();
     this.listenToStatues();
@@ -69,12 +115,11 @@ export class PostFormComponent {
   }
 
   fetchDataAndMapIt(id: string) {
-    // this.apiService.getOne<SupplierGetOne>(id, 'suppliers').subscribe((res) => {
-    //   this.supplierGroup.patchValue(SupplierGetOneToSupplierForm(res));
-    //   this.supplierGroup.updateValueAndValidity();
-    //   this.isStepValid();
-    //   this.isLoading = false;
-    // });
+    this.apiService.getOne<PostModel>(id, 'posts').subscribe((res) => {
+      this.postGroup.patchValue(res);
+      this.postGroup.updateValueAndValidity();
+      this.isLoading = false;
+    });
   }
 
 }

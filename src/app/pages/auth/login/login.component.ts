@@ -25,7 +25,7 @@ export class LoginComponent {
       next: (data) => {
         this.authService.storeToken(data);
         this.isLoading = false;
-        this.utilService.gotoLink(['home']);
+        this.utilService.gotoLink(['posts']);
       },
       error: (error) => {
         this.messageService.publishMessage({
