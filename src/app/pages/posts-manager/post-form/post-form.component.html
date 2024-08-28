@@ -1,1 +1,43 @@
-<p>post-form works!</p>
+<app-breadcrumb [breads]="breads" [current]="currentBread"></app-breadcrumb>
+
+<div class="pt-2 mx-5 my-2 flex justify-between items-center">
+    <div class="font-bold text-xl">
+        {{ currentItemId ? "edit post" : "add post" }}
+    </div>
+</div>
+
+<div class="flex justify-center">
+    <div class="block bg-white border border-gray-200 rounded-lg shadow m-5 md:w-2/3 w-full">
+        <form [formGroup]="postGroup">
+            <div class="p-4" *ngIf="!isLoading">
+                <app-input-text [label]="'title'" [placeholder]="'add title here'" [key]="'title'"
+                    [control]="getControl('title')" [isSubmitted]="isSubmitting"></app-input-text>
+
+
+                <app-input-text [label]="'category'" [placeholder]="'add the category here'" [key]="'supplier-name'"
+                    [control]="getControl('category')" [isSubmitted]="isSubmitting"></app-input-text>
+
+                <app-input-editor [control]="getControl('content')" [showOptional]="false" key="description"
+                    label="content" [isSubmitted]="isSubmitting"></app-input-editor>
+
+                <app-image-picker [control]="getControl('imageId')" key="image"></app-image-picker>
+
+            </div>
+            <div *ngIf="!isLoading" class="block bg-[#EFF6FF] w-full border border-gray-200 rounded-lg rounded-b-none">
+                <div class="flex w-full justify-start p-4 items-center">
+                    <app-button [meta]="{
+                  label: 'submit',
+                  textColor:
+                    !isSubmitValid || isSubmitting ? 'text-[#D4D4D8]' : 'text-white',
+                  bgColor:
+                    !isSubmitValid || isSubmitting ? 'bg-[#F4F4F5]' : 'bg-black'
+                }" (onClick)="onSubmit()"></app-button>
+                </div>
+            </div>
+        </form>
+
+        <div class="m-3" *ngIf="isLoading">
+            <app-loading-skeleton></app-loading-skeleton>
+        </div>
+    </div>
+</div>

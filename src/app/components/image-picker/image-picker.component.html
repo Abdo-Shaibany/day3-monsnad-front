@@ -1,0 +1,14 @@
+<app-image-preview-state
+  *ngIf="image"
+  [image]="image"
+  (onRemove)="onFileRemoved($event)"
+></app-image-preview-state>
+<div class="flex items-center justify-center w-60">
+  <app-loading-skeleton *ngIf="isLoading && !image"></app-loading-skeleton>
+</div>
+<app-choice-image-state
+  *ngIf="!isLoading && !image"
+  (onFileSelected)="onFileSelected($event)"
+  [key]="key"
+>
+</app-choice-image-state>

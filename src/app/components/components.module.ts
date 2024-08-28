@@ -21,6 +21,10 @@ import { AddNewOneComponent } from './add-new-one/add-new-one.component';
 import { TextareaComponent } from './textarea/textarea.component';
 import { TagComponent } from './tag/tag.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { InputEditorComponent } from './input-editor/input-editor.component';
+import { ImagePickerComponent } from './image-picker/image-picker.component';
+import { ImagePreviewStateComponent } from './image-picker/image-preview-state/image-preview-state.component';
+import { ChoiceImageStateComponent } from './image-picker/choice-image-state/choice-image-state.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +45,10 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     AddNewOneComponent,
     TextareaComponent,
     TagComponent,
+    InputEditorComponent,
+    ImagePickerComponent,
+    ImagePreviewStateComponent,
+    ChoiceImageStateComponent
   ],
   imports: [
     CommonModule,
@@ -69,6 +77,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     AddNewOneComponent,
     TextareaComponent,
     TagComponent,
+    InputEditorComponent,
+    ImagePickerComponent
   ],
   providers: [provideNgxMask()],
 })
