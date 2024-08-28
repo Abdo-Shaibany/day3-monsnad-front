@@ -10,7 +10,7 @@ const routes: Routes = [
     component: PostsListComponent
   },
   {
-    path: "/post-form",
+    path: "post-form",
     component: PostFormComponent
   },
   {
