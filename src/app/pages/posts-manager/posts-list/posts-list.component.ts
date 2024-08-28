@@ -61,7 +61,7 @@ export class PostsListComponent implements OnInit {
 
   logout() {
     this.authService.removeToken();
-    this.utilService.goBack();
+    this.utilService.gotoLink(['auth', 'login']);
   }
 
   getRelativeTimeString(date: Date | number, lang = navigator.language): string {

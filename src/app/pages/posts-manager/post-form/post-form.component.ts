@@ -36,7 +36,7 @@ export class PostFormComponent {
 
   initForm() {
     this.postGroup = this.fb.group({
-      title: [null, Validators.required, Validators.min(3)],
+      title: [null, Validators.required],
       content: [null],
       id: [null],
       category: [null, Validators.required],
@@ -48,7 +48,7 @@ export class PostFormComponent {
     if (!this.isSubmitValid) return;
     this.isLoading = true;
 
-    if (this.currentItemId)
+    if (!this.currentItemId)
       this.apiService.createItem<PostModel>(this.postGroup.value, "posts").subscribe({
         next: (_) => {
           this.singalService.publishSignal("posts-list");
@@ -61,7 +61,7 @@ export class PostFormComponent {
         },
         error: (error) => {
           this.messageService.publishMessage({
-            message: error.error.message,
+            message: error?.msg ?? "حصل خطا ما",
             type: 'error',
             duration: 3000,
           });
