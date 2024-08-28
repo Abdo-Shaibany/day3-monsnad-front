@@ -5,20 +5,32 @@ import { RequestQuery } from 'src/app/core/models/query.model';
 import { ResponseList } from 'src/app/core/models/response-list.model';
 import { APIService } from 'src/app/core/services/api.service';
 import { UtilService } from 'src/app/core/services/util.service';
-
+import { PostModel } from 'src/app/core/models/posts.model';
 @Component({
   selector: 'app-posts-list',
   templateUrl: './posts-list.component.html',
 })
 export class PostsListComponent implements OnInit {
-  posts: ResponseList<any> = {
+  posts: ResponseList<PostModel> = {
     items: [
       {
         id: 1,
         title: "Post title",
         content: "The sun danced across the rippling waves, casting a golden glow upon the serene waters, while whispers of the wind carried secrets through the ancient trees, rustling their leaves in a symphony of mystery. Laughter echoed through the bustling streets, mingling with the aroma of freshly baked pastries from the corner bakery.",
         user: {
-          userID: 1,
+          id: 1,
+          username: "admin",
+        },
+        date: new Date("2024-01-01"),
+        category: "category",
+        imageId: 1,
+      },
+      {
+        id: 1,
+        title: "Post title",
+        content: "The sun danced across the rippling waves, casting a golden glow upon the serene waters, while whispers of the wind carried secrets through the ancient trees, rustling their leaves in a symphony of mystery. Laughter echoed through the bustling streets, mingling with the aroma of freshly baked pastries from the corner bakery.",
+        user: {
+          id: 1,
           username: "admin",
         },
         date: new Date("2024-01-01"),
@@ -29,7 +41,7 @@ export class PostsListComponent implements OnInit {
         title: "Post title",
         content: "The sun danced across the rippling waves, casting a golden glow upon the serene waters, while whispers of the wind carried secrets through the ancient trees, rustling their leaves in a symphony of mystery. Laughter echoed through the bustling streets, mingling with the aroma of freshly baked pastries from the corner bakery.",
         user: {
-          userID: 1,
+          id: 1,
           username: "admin",
         },
         date: new Date("2024-01-01"),
@@ -40,18 +52,7 @@ export class PostsListComponent implements OnInit {
         title: "Post title",
         content: "The sun danced across the rippling waves, casting a golden glow upon the serene waters, while whispers of the wind carried secrets through the ancient trees, rustling their leaves in a symphony of mystery. Laughter echoed through the bustling streets, mingling with the aroma of freshly baked pastries from the corner bakery.",
         user: {
-          userID: 1,
-          username: "admin",
-        },
-        date: new Date("2024-01-01"),
-        category: "category",
-      },
-      {
-        id: 1,
-        title: "Post title",
-        content: "The sun danced across the rippling waves, casting a golden glow upon the serene waters, while whispers of the wind carried secrets through the ancient trees, rustling their leaves in a symphony of mystery. Laughter echoed through the bustling streets, mingling with the aroma of freshly baked pastries from the corner bakery.",
-        user: {
-          userID: 1,
+          id: 1,
           username: "admin",
         },
         date: new Date("2024-01-01"),

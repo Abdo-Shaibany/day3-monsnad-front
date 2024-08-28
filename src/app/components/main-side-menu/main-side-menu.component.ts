@@ -66,11 +66,6 @@ export class MainSideMenuComponent implements OnDestroy {
         }
       });
 
-    if (this.authService.getUser()?.role!.name === 'admin') {
-      this.menu = this.adminMenu;
-    } else {
-      this.menu = this.userMenu;
-    }
   }
 
   getSubItems() {
