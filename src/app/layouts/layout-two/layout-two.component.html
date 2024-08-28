@@ -1,0 +1,24 @@
+<div class="block pt-10 bg-white border border-gray-200 rounded-lg shadow m-5">
+  <div class="flex justify-start items-center h-3 mt-3 mb-7 px-6">
+    <div class="mx-2">
+      <app-search [placeholder]="'بحث'" [searchValue]="searchValue" (onSearch)="onSearch($event)"></app-search>
+    </div>
+    <div class="mx-2">
+
+    </div>
+    <div class="flex-1"></div>
+    <div class="mx-2" *ngIf="meta.mainAction">
+      <app-button [meta]="meta.mainAction" (onClick)="processCreateAction.emit()"></app-button>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <div class="block p-10 bg-white border border-gray-200 rounded-lg shadow m-5" *ngIf="isLoading">
+      <app-loading-skeleton></app-loading-skeleton>
+    </div>
+    <app-table *ngIf="!isLoading" [table]="meta.table" [data]="listData.items" (onSelectItems)="onItemsSelected($event)"
+      (onSort)="onSort($event)" [sortBy]="sort"></app-table>
+    <app-pagination [pagination]="listData.pagination" (onPageChange)="onPageChange($event)"
+      *ngIf="!isLoading"></app-pagination>
+  </div>
+</div>

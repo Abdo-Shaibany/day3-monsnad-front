@@ -1,0 +1,18 @@
+<label [for]="key" class="relative mb-3 text-sm font-medium text-gray-900 p-2">
+  {{ label }}
+  <span class="absolute top-1 left-0 text-red-500" [ngClass]="{
+    'hidden': !control.hasError('required'),
+  }" aria-hidden="true">*</span>
+  <span class="text-gray-400" *ngIf="showOptional">(اختياري)</span>
+</label>
+<input [type]="type" [id]="key" [class]="
+    'bg-white border mt-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ' +
+    classes
+  " [ngClass]="{
+    'border-red-300': control.errors && (control.touched || isSubmitted),
+    'border-green-500': !control.errors && (control.touched || isSubmitted),
+  }" [placeholder]="placeholder" [formControl]="control" />
+<div class="italic text-red-500 text-xs ps-2 py-2"
+  *ngIf="errorMessage && control.errors && (control.touched || isSubmitted)">
+  {{ errorMessage }}
+</div>

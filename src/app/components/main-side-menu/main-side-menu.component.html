@@ -1,0 +1,30 @@
+<div class="flex min-h-screen relative start-0 top-16 bottom-0 z-40 overflow-y-auto">
+  <div class="w-24 bg-white drop-shadow-md h-screen">
+    <ng-container *ngFor="let item of menu">
+      <div [ngClass]="{
+          'cursor-pointer': currentGroupURL !== item.link
+        }" class="flex flex-col justify-center items-center mb-4 mt-2" (click)="goToLink([item.link, item.subLink])">
+        <img [src]="item.icon" [alt]="item.title" />
+        <div [ngClass]="{
+            'text-[#4B5563]': currentGroupURL !== item.link,
+            'text-blue-500': currentGroupURL === item.link
+          }" class="text-sm">
+          {{ item.title }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="w-44 bg-[#F3F4F6] h-screen" *ngIf="canShowSubItems()">
+    <ng-container *ngFor="let item of getSubItems()">
+      <div [ngClass]="{
+          'bg-white': currentModuleURL === item.link,
+          'cursor-pointer': currentModuleURL !== item.link
+        }" class="flex items-center justify-between pb-4 pt-2 w-full px-2"
+        (click)="goToLink([currentGroupURL, item.link])">
+        <div class="text-sm text-[#4B5563]">{{ item.title }}</div>
+        <img src="assets/images/left-arrow.svg" alt="arrow-icon" *ngIf="currentModuleURL === item.link"
+          class="h-4 w-4 self-end" />
+      </div>
+    </ng-container>
+  </div>
+</div>

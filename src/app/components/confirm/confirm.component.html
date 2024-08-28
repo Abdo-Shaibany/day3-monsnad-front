@@ -1,0 +1,55 @@
+<!-- Main modal -->
+<div
+  class="fixed w-screen h-screen bg-black z-50 opacity-80 top-0 right-0"
+  [ngClass]="{
+    hidden: !show
+  }"
+></div>
+<div
+  id="default-modal"
+  tabindex="-1"
+  aria-hidden="true"
+  [ngClass]="{
+    hidden: !show
+  }"
+  class="overflow-y-auto overflow-x-hidden fixed flex justify-center items-center m-auto inset-x-0 inset-y-0 z-50 w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+>
+  <div class="relative p-4 w-full max-w-2xl max-h-full">
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow">
+      <!-- Modal header -->
+      <div
+        class="flex items-center justify-center p-4 md:p-5 border-b rounded-t"
+      >
+        <h3 class="text-xl font-semibold text-gray-900">
+          {{ confirm?.header }}
+        </h3>
+      </div>
+      <!-- Modal body -->
+      <div class="p-4 md:p-5 space-y-4">
+        {{ confirm?.body }}
+      </div>
+      <!-- Modal footer -->
+      <div
+        class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b"
+      >
+        <button
+          data-modal-hide="default-modal"
+          type="button"
+          class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          (click)="onConfirm()"
+        >
+          تأكيد
+        </button>
+        <button
+          data-modal-hide="default-modal"
+          type="button"
+          class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
+          (click)="onCancel()"
+        >
+          الغاء
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

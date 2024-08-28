@@ -1,0 +1,29 @@
+<div class="py-3 px-5 flex justify-between text-gray-700">
+  <div>{{ getItemsRange() }}</div>
+  <div class="flex justify-start">
+    <div>
+      {{ getPagesRange() }}
+    </div>
+
+    <div
+      class="mx-4"
+      [ngClass]="{
+        hidden: pagination.currentPage == 0,
+        'cursor-pointer': pagination.currentPage != 0
+      }"
+      (click)="onClickPrev()"
+    >
+      السابق
+    </div>
+    <div
+      class="mx-4"
+      [ngClass]="{
+        hidden: isLastPage(),
+        'cursor-pointer': !isLastPage()
+      }"
+      (click)="onClickNext()"
+    >
+      التالي
+    </div>
+  </div>
+</div>

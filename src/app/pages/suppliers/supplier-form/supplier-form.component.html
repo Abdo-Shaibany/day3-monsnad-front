@@ -1,0 +1,67 @@
+<app-breadcrumb [breads]="breads" [current]="currentBread"></app-breadcrumb>
+<div class="pt-2 mx-5 my-2 flex justify-between items-center">
+  <div class="font-bold text-xl">
+    {{ currentItemId ? "تعديل مورد" : "إضافة مورد" }}
+  </div>
+</div>
+<div class="block bg-white border border-gray-200 rounded-lg shadow m-5 md:w-2/3 w-full">
+  <form [formGroup]="supplierGroup">
+    <div class="block bg-[#EFF6FF] w-full border border-gray-200 rounded-lg rounded-b-none">
+      <app-steps [steps]="['بيانات اساسية', 'الحساب البنكي']" [currentStep]="currentStep === '0' ? 0 : 1"></app-steps>
+    </div>
+    <div class="p-4" *ngIf="!isLoading">
+      <ng-container [ngSwitch]="currentStep">
+        <ng-container *ngSwitchCase="'0'">
+          <app-input-text [label]="'اسم المورد'" [placeholder]="'ادخل اسم المورد'" [key]="'supplier-name'"
+            [control]="stepOne('name')" [isSubmitted]="isSubmitting"></app-input-text>
+          <div class="my-3"></div>
+          <app-input-text [label]="'رقم الجوال'" [placeholder]="'ادخل رقم الجوال'" [key]="'supplier-phone'"
+            [control]="stepOne('phone')" [isSubmitted]="isSubmitting"
+            [errorMessage]="'قم بإدخال رقم جوال يمني'"></app-input-text>
+          <div class="my-3"></div>
+          <app-input-text [label]="'اسم النشاط التجاري'" [placeholder]="'ادخل اسم النشاط التجاري'"
+            [key]="'supplier-company'" [control]="stepOne('company')" [isSubmitted]="isSubmitting"></app-input-text>
+          <div class="my-3"></div>
+          <app-input-text [label]="'عنوان النشاط التجاري'" [placeholder]="'ادخل عنوان النشاط التجاري'"
+            [key]="'supplier-company-address'" [control]="stepOne('company_address')"
+            [isSubmitted]="isSubmitting"></app-input-text>
+        </ng-container>
+        <div *ngSwitchCase="'1'">
+
+          <div class="my-3"></div>
+          <app-input-text [label]="'رقم الحساب البنكي'" [placeholder]="'ادخل رقم الحساب البنكي'"
+            [key]="'supplier-account-number'" [control]="stepTwo('account_number')"
+            [isSubmitted]="isSubmitting"></app-input-text>
+          <div class="my-3"></div>
+          <app-input-text [label]="'اسم صاحب الحساب'" [placeholder]="'ادخل اسم صاحب الحساب'"
+            [key]="'supplier-account-name'" [control]="stepTwo('account_name')"
+            [isSubmitted]="isSubmitting"></app-input-text>
+          <div class="my-3"></div>
+
+          <div class="my-3"></div>
+
+        </div>
+      </ng-container>
+    </div>
+    <div *ngIf="!isLoading" class="block bg-[#EFF6FF] w-full border border-gray-200 rounded-lg rounded-b-none">
+      <div class="flex w-full justify-start p-4 items-center">
+        <app-button [meta]="{
+            label: 'حفظ ومتابعة',
+            textColor:
+              !isSubmitValid || isSubmitting ? 'text-[#D4D4D8]' : 'text-white',
+            bgColor:
+              !isSubmitValid || isSubmitting ? 'bg-[#F4F4F5]' : 'bg-black'
+          }" (onClick)="onSubmit()"></app-button>
+        <app-button *ngIf="currentStep !== '0'" [meta]="{
+            label: 'رجوع',
+            textColor: 'text-black',
+            bgColor: 'bg-white'
+          }" (onClick)="goBack()"></app-button>
+      </div>
+    </div>
+  </form>
+
+  <div class="m-3" *ngIf="isLoading">
+    <app-loading-skeleton></app-loading-skeleton>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<button
+  type="button"
+  [class]="
+    'focus:outline-none font-medium rounded-lg text-sm px-3 py-2 me-2 ' +
+    meta.bgColor +
+    ' ' +
+    meta.textColor
+  "
+  (click)="processAction()"
+>
+  {{ meta.label }}
+</button>
+
+<!-- divs hidden for classes of tailwind -->
+<div class="hidden text-white bg-read-600"></div>

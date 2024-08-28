@@ -1,0 +1,20 @@
+<div
+  class="w-full h-16 bg-white drop-shadow-md flex justify-between flex-row-reverse items-center fixed top-0 left-0 right-0 z-50">
+
+  <div class="flex justify-around me-4">
+    <img src="assets/images/avatar-border.svg" alt="avatar-icon" class="h-6 w-6 cursor-pointer"
+      (click)="profilePreviewShow = !profilePreviewShow" />
+
+    <div id="dropdown"
+      class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 min-h-44 absolute top-10 left-2 mt-2 border border-gray-500"
+      [ngClass]="{ hidden: !profilePreviewShow }">
+      <div class="flex flex-col w-full min-h-44">
+        <div class="grow mr-4 mt-2">مرحبا بك! {{user?.username }}</div>
+        <div class="flex flex-row-reverse items-center cursor-pointer" (click)="logout()">
+          <img src="assets/images/logout.svg" alt="avatar-icon" class="h-6 w-6  mb-6 ml-4 mr-2 mt-2 " />
+          <div class="mb-6 mt-2 text-red-500">تسجيل خروج</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
