@@ -9,8 +9,15 @@ const routes: Routes = [
   // TODO: this should be home page later
   {
     path: "",
-    redirectTo: "home",
+    redirectTo: "posts",
     pathMatch: "full",
+  },
+  {
+    path: "posts",
+    loadChildren: () =>
+      import('./pages/posts-manager/posts-manager.module').then(
+        (m) => m.PostsManagerModule
+      ),
   },
   {
     path: 'home',
